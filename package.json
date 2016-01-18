@@ -6,7 +6,10 @@
   "keywords": [
   ],
   "activationCommands": {
-    "atom-workspace": "arduino-toolbelt:toggle"
+    "atom-workspace": [
+      "arduino-toolbelt:verify",
+      "arduino-toolbelt:upload"
+    ]
   },
   "repository": "https://github.com/atom/arduino-toolbelt",
   "license": "MIT",
