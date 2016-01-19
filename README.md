@@ -1,17 +1,29 @@
-# arduino-toolbelt package
+# arduino-toolbelt
 
-Arduino toolbelt on Atom.
+Arduino toolbelt on Atom with official CLI tool.
 
-## TODO
-[ ] コマンドパレットから Verify, Upload ができる
-[ ] ポートの選択（自動選択）
-[ ] ボードの選択
-[ ] ログの出力
+## System requirements
+### Must
+- OS X (other OS is not supported now)
+- Arduino IDE (ver >=1.5.0)
 
-## できたらいいな
-[ ] GUIボタンからの verify, Upload
-[ ] シリアルモニタ
-[ ] ライブラリリストからライブラリ選択で、ヘッダファイルの自動インポート
-[ ] Exampleコードの読み込み
+### Reccomend
+- Latest version OS
+- Latest version Atom
 
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+## Usage
+1. Download Arduino IDE from Arduino website. https://www.arduino.cc
+2. Modify this package config.
+
+## ver 0.1.0
+- [x] auto selecting port (buggy)
+- [x] Verify and Upload command support
+
+## 今後やってく 💪
+- [ ] テストスクリプト書く
+- [ ] エラーログの出力形式検討
+- [ ] シリアルモニタ
+- [ ] ボードの選択
+- [ ] ライブラリリストからライブラリ選択で、ヘッダファイルの自動インポート
+- [ ] Exampleコードの読み込み
+- [ ] GUIボタンからの verify, Upload

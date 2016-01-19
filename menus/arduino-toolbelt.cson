@@ -2,8 +2,12 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle arduino-toolbelt'
-      'command': 'arduino-toolbelt:toggle'
+      'label': 'Verify'
+      'command': 'arduino-toolbelt:verify'
+    }
+    {
+      'label': 'Upload'
+      'command': 'arduino-toolbelt:upload'
     }
   ]
 'menu': [
@@ -13,8 +17,16 @@
       'label': 'arduino-toolbelt'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'arduino-toolbelt:toggle'
+          'label': 'Verify'
+          'command': 'arduino-toolbelt:verify'
+        }
+        {
+          'label': 'Upload'
+          'command': 'arduino-toolbelt:upload'
+        }
+        {
+          'label': 'Reload Port'
+          'command': 'arduino-toolbelt:reload-port'
         }
       ]
     ]
