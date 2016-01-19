@@ -1,7 +1,18 @@
-# ArduinoToolbeltView = require './arduino-toolbelt-view'
+# ArduinoToolbeltView = require './Arduino-toolbelt-view'
 {CompositeDisposable} = require 'atom'
 child = require 'child_process'
 exec = child.exec
+execSync = child.execSync
+
+switch process.platform
+  when 'darwin'
+    binaryFilePath = '/Applications/Arduino.app/Contents/MacOS/Arduino'
+    break;
+  when 'win32'
+    binaryFilePath = '';
+    break;
+  else
+    binaryFilePath = '';
 
 module.exports = ArduinoToolbelt =
   arduinoToolbeltView: null
@@ -9,9 +20,14 @@ module.exports = ArduinoToolbelt =
   subscriptions: null
 
   config:
-    arduinoPath:
-      type: 'string',
-      default: '/Applications/Arduino.app/Contents/MacOS/Arduino'
+    binaryFilePath:
+      type: 'string'
+      default: binaryFilePath
+      description: 'Executable file for building Arduino'
+    devicePort:
+      type: 'string'
+      description: 'Arduino port for uploading'
+      default: ''
     
 
   activate: (state) ->
@@ -23,9 +39,12 @@ module.exports = ArduinoToolbelt =
 
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace',
-      # 'arduino-toolbelt:toggle': => @toggle()
-      'arduino-toolbelt:verify': => @verify()
-      'arduino-toolbelt:upload': => @upload()
+      # 'Arduino-toolbelt:toggle': => @toggle()
+      'Arduino-toolbelt:verify': => @verify()
+      'Arduino-toolbelt:upload': => @upload()
+      'Arduino-toolbelt:reload-port': => @reloadPort()
+      # 'Arduino-toolbelt:list-port': => @listPort()
+    @reloadPort()
 
   deactivate: ->
     # @modalPanel.destroy()
@@ -44,37 +63,51 @@ module.exports = ArduinoToolbelt =
   #     @modalPanel.show()
   
   verify: ->
-    # console.log 'verify arduino!'    
     editor = atom.workspace.getActivePaneItem()
     file = editor?.buffer.file
     filePath = file?.path
 
-    arduinoPath = atom.config.get('arduino-toolbelt.arduinoPath')
+    arduinoPath = atom.config.get('Arduino-toolbelt.binaryFilePath')
     verifyCommand = arduinoPath + ' ' + filePath + ' ' + '--verify'
 
     exec verifyCommand, (err, stdout, stderr) ->
-      # /* some process */
       if err is null
         atom.notifications.addSuccess('Done compiling.')
       else
-        atom.notifications.addError(err, {detail: stderr, dismissable: true})
-      # console.log stdout
-      # console.log stderr
+        atom.notifications.addError('Compiling error', {detail: err + '\n' + stderr, dismissable: true})
 
   upload: ->
-    # console.log 'verify arduino!'
     editor = atom.workspace.getActivePaneItem()
     file = editor?.buffer.file
     filePath = file?.path
-    # ttyArray = []
-    exec 'ls /dev/tty.*', (err, stdout, stderr) ->
-      # /* some process */
-      if err is null
-        console.log stdout.split('\n')
-      # ttyArray = stdout.split('\n')
 
-    arduinoPath = atom.config.get('arduino-toolbelt.arduinoPath')
-    uploadCommand = arduinoPath + ' ' + filePath + ' ' + '--upload'
+    arduinoPath = atom.config.get('Arduino-toolbelt.binaryFilePath')
+    port = atom.config.get('Arduino-toolbelt.devicePort')
+    uploadCommand = arduinoPath + ' ' + filePath + ' ' + '--upload --port ' + port
     exec uploadCommand, (err, stdout, stderr) ->
-      # /* some process */
-      # console.log stdout
+      if err is null
+        atom.notifications.addSuccess('Done uploading.')
+      else
+        atom.notifications.addError('Uploading error', {detail: err + '\n' + stderr, dismissable: true})
+
+  reloadPort: ->
+    exec 'ls /dev/tty.*', (err, stdout, stderr) ->
+      ttyArray = stdout.split('\n').filter((e)-> e isnt "")
+      _Port = ''
+      for i in [0..ttyArray.length - 1]
+        if ttyArray[i].indexOf('/dev/tty.usbserial') != -1
+          _Port = ttyArray[i]
+          break
+      
+      if _Port is ''
+        _Port = ttyArray[0]
+      atom.config.set('Arduino-toolbelt.devicePort', _Port)
+
+  # listPort: ->
+  #   ArduinoPortListView = require('./arduino-port-list-view');
+  #   portListView = new ArduinoPortListView();
+
+    # ttyArray = execSync('ls /dev/tty.*').split('\n').filter((e)-> e isnt "")
+    
+    # portListView.setItems(ttyArray)
+    # portListView.show();

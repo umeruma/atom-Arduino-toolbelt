@@ -1,3 +1,3 @@
-## 0.1.0 - First Release
-* Every feature added
-* Every bug fixed
+## 0.1.0 - alpha Release
+* auto selecting port (buggy)
+* Verify and Upload command support

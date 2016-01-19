@@ -2,19 +2,31 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle arduino-toolbelt'
-      'command': 'arduino-toolbelt:toggle'
+      'label': 'Verify'
+      'command': 'Arduino-toolbelt:verify'
+    }
+    {
+      'label': 'Upload'
+      'command': 'Arduino-toolbelt:upload'
     }
   ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'arduino-toolbelt'
+      'label': 'Arduino-toolbelt'
       'submenu': [
         {
-          'label': 'Toggle'
-          'command': 'arduino-toolbelt:toggle'
+          'label': 'Verify'
+          'command': 'Arduino-toolbelt:verify'
+        }
+        {
+          'label': 'Upload'
+          'command': 'Arduino-toolbelt:upload'
+        }
+        {
+          'label': 'Reload Port'
+          'command': 'Arduino-toolbelt:reload-port'
         }
       ]
     ]

@@ -1,21 +1,23 @@
 {
-  "name": "arduino-toolbelt",
-  "main": "./lib/arduino-toolbelt",
+  "name": "Arduino-toolbelt",
+  "main": "./lib/Arduino-toolbelt",
   "version": "0.0.0",
   "description": "Arduino toolbelt on Atom",
-  "keywords": [
-  ],
+  "keywords": [],
   "activationCommands": {
     "atom-workspace": [
-      "arduino-toolbelt:verify",
-      "arduino-toolbelt:upload"
+      "Arduino-toolbelt:verify",
+      "Arduino-toolbelt:upload",
+      "Arduino-toolbelt:reload-port"
     ]
   },
-  "repository": "https://github.com/atom/arduino-toolbelt",
+  "repository": "https://github.com/umeruma/Arduino-toolbelt",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-  }
+    "atom-space-pen-views": "^2.1.1"
+  },
+  "devDependencies": {}
 }
