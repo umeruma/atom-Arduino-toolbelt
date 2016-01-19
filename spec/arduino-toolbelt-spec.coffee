@@ -1,4 +1,4 @@
-ArduinoToolbelt = require '../lib/Arduino-toolbelt'
+ArduinoToolbelt = require '../lib/arduino-toolbelt'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
@@ -10,9 +10,9 @@ describe "ArduinoToolbelt", ->
 
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
-    activationPromise = atom.packages.activatePackage('Arduino-toolbelt')
+    activationPromise = atom.packages.activatePackage('arduino-toolbelt')
 
-  describe "when the Arduino-toolbelt:toggle event is triggered", ->
+  describe "when the arduino-toolbelt:toggle event is triggered", ->
     it "hides and shows the modal panel", ->
 
       expect("There is no testcode now. Sorry.").toExist()

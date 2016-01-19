@@ -5,7 +5,7 @@ class ArduinoPortListView extends SelectListView
   # constructor: (serializedState) ->
   #   # Create root element
   #   @element = document.createElement('div')
-  #   @element.classList.add('Arduino-toolbelt')
+  #   @element.classList.add('arduino-toolbelt')
   # 
   #   # Create message element
   #   message = document.createElement('div')

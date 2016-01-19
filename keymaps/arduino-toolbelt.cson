@@ -8,5 +8,5 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
-  'ctrl-alt-v': 'Arduino-toolbelt:verify'
-  'ctrl-alt-u': 'Arduino-toolbelt:upload'
+  'ctrl-alt-v': 'arduino-toolbelt:verify'
+  'ctrl-alt-u': 'arduino-toolbelt:upload'

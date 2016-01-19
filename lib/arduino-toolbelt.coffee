@@ -1,4 +1,4 @@
-# ArduinoToolbeltView = require './Arduino-toolbelt-view'
+# ArduinoToolbeltView = require './arduino-toolbelt-view'
 {CompositeDisposable} = require 'atom'
 child = require 'child_process'
 exec = child.exec
@@ -39,11 +39,11 @@ module.exports = ArduinoToolbelt =
 
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace',
-      # 'Arduino-toolbelt:toggle': => @toggle()
-      'Arduino-toolbelt:verify': => @verify()
-      'Arduino-toolbelt:upload': => @upload()
-      'Arduino-toolbelt:reload-port': => @reloadPort()
-      # 'Arduino-toolbelt:list-port': => @listPort()
+      # 'arduino-toolbelt:toggle': => @toggle()
+      'arduino-toolbelt:verify': => @verify()
+      'arduino-toolbelt:upload': => @upload()
+      'arduino-toolbelt:reload-port': => @reloadPort()
+      # 'arduino-toolbelt:list-port': => @listPort()
     @reloadPort()
 
   deactivate: ->
@@ -67,7 +67,7 @@ module.exports = ArduinoToolbelt =
     file = editor?.buffer.file
     filePath = file?.path
 
-    arduinoPath = atom.config.get('Arduino-toolbelt.binaryFilePath')
+    arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
     verifyCommand = arduinoPath + ' ' + filePath + ' ' + '--verify'
 
     exec verifyCommand, (err, stdout, stderr) ->
@@ -81,8 +81,8 @@ module.exports = ArduinoToolbelt =
     file = editor?.buffer.file
     filePath = file?.path
 
-    arduinoPath = atom.config.get('Arduino-toolbelt.binaryFilePath')
-    port = atom.config.get('Arduino-toolbelt.devicePort')
+    arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
+    port = atom.config.get('arduino-toolbelt.devicePort')
     uploadCommand = arduinoPath + ' ' + filePath + ' ' + '--upload --port ' + port
     exec uploadCommand, (err, stdout, stderr) ->
       if err is null
@@ -101,7 +101,7 @@ module.exports = ArduinoToolbelt =
       
       if _Port is ''
         _Port = ttyArray[0]
-      atom.config.set('Arduino-toolbelt.devicePort', _Port)
+      atom.config.set('arduino-toolbelt.devicePort', _Port)
 
   # listPort: ->
   #   ArduinoPortListView = require('./arduino-port-list-view');

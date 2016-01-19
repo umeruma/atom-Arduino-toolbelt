@@ -1,4 +1,4 @@
-# Arduino-toolbelt
+# arduino-toolbelt
 
 Arduino toolbelt on Atom with official CLI tool.
 

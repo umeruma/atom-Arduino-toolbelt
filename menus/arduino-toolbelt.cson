@@ -3,30 +3,30 @@
   'atom-text-editor': [
     {
       'label': 'Verify'
-      'command': 'Arduino-toolbelt:verify'
+      'command': 'arduino-toolbelt:verify'
     }
     {
       'label': 'Upload'
-      'command': 'Arduino-toolbelt:upload'
+      'command': 'arduino-toolbelt:upload'
     }
   ]
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'Arduino-toolbelt'
+      'label': 'arduino-toolbelt'
       'submenu': [
         {
           'label': 'Verify'
-          'command': 'Arduino-toolbelt:verify'
+          'command': 'arduino-toolbelt:verify'
         }
         {
           'label': 'Upload'
-          'command': 'Arduino-toolbelt:upload'
+          'command': 'arduino-toolbelt:upload'
         }
         {
           'label': 'Reload Port'
-          'command': 'Arduino-toolbelt:reload-port'
+          'command': 'arduino-toolbelt:reload-port'
         }
       ]
     ]
