@@ -1,7 +1,7 @@
 {
   "name": "arduino-toolbelt",
   "main": "./lib/arduino-toolbelt",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Arduino toolbelt on Atom",
   "keywords": [],
   "activationCommands": {
