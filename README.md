@@ -15,12 +15,16 @@ Arduino toolbelt on Atom with official CLI tool.
 1. Download Arduino IDE from Arduino website. https://www.arduino.cc
 2. Modify this package config.
 
+## ver 0.1.1
+- [x] manual selecting port
+- [x] write test script
+
 ## ver 0.1.0
 - [x] auto selecting port (buggy)
 - [x] Verify and Upload command support
 
+
 ## 今後やってく 💪
-- [ ] テストスクリプト書く
 - [ ] エラーログの出力形式検討
 - [ ] シリアルモニタ
 - [ ] ボードの選択
