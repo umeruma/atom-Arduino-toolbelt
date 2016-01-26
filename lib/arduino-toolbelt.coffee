@@ -1,28 +1,27 @@
 # ArduinoToolbeltView = require './arduino-toolbelt-view'
 {CompositeDisposable} = require 'atom'
-child = require 'child_process'
-exec = child.exec
-execSync = child.execSync
+command = null
 
-switch process.platform
-  when 'darwin'
-    binaryFilePath = '/Applications/Arduino.app/Contents/MacOS/Arduino'
-    break;
-  when 'win32'
-    binaryFilePath = '';
-    break;
-  else
-    binaryFilePath = '';
+# switch process.platform
+#   when 'darwin'
+#     binaryFilePathValue = 
+#     break;
+#   when 'win32'
+#     binaryFilePathValue = '';
+#     break;
+#   else
+#     binaryFilePathValue = '';
 
-module.exports = ArduinoToolbelt =
+module.exports = ArduinoToolbelt = 
   arduinoToolbeltView: null
   modalPanel: null
   subscriptions: null
+  command: null
 
   config:
     binaryFilePath:
       type: 'string'
-      default: binaryFilePath
+      default: '/Applications/Arduino.app/Contents/MacOS/Arduino'
       description: 'Executable file for building Arduino'
     devicePort:
       type: 'string'
@@ -31,6 +30,7 @@ module.exports = ArduinoToolbelt =
     
 
   activate: (state) ->
+    @command ?= require './arduino-command'
     # @arduinoToolbeltView = new ArduinoToolbeltView(state.arduinoToolbeltViewState)
     # @modalPanel = atom.workspace.addModalPanel(item: @arduinoToolbeltView.getElement(), visible: false)
 
@@ -42,8 +42,8 @@ module.exports = ArduinoToolbelt =
       # 'arduino-toolbelt:toggle': => @toggle()
       'arduino-toolbelt:verify': => @verify()
       'arduino-toolbelt:upload': => @upload()
+      'arduino-toolbelt:set-port': => @setPort()
       'arduino-toolbelt:reload-port': => @reloadPort()
-      # 'arduino-toolbelt:list-port': => @listPort()
     @reloadPort()
 
   deactivate: ->
@@ -66,48 +66,20 @@ module.exports = ArduinoToolbelt =
     editor = atom.workspace.getActivePaneItem()
     file = editor?.buffer.file
     filePath = file?.path
-
-    arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
-    verifyCommand = arduinoPath + ' ' + filePath + ' ' + '--verify'
-
-    exec verifyCommand, (err, stdout, stderr) ->
-      if err is null
-        atom.notifications.addSuccess('Done compiling.')
-      else
-        atom.notifications.addError('Compiling error', {detail: err + '\n' + stderr, dismissable: true})
+    @command.verify(filePath)
 
   upload: ->
     editor = atom.workspace.getActivePaneItem()
     file = editor?.buffer.file
     filePath = file?.path
-
-    arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
-    port = atom.config.get('arduino-toolbelt.devicePort')
-    uploadCommand = arduinoPath + ' ' + filePath + ' ' + '--upload --port ' + port
-    exec uploadCommand, (err, stdout, stderr) ->
-      if err is null
-        atom.notifications.addSuccess('Done uploading.')
-      else
-        atom.notifications.addError('Uploading error', {detail: err + '\n' + stderr, dismissable: true})
+    @command.upload(filePath)
 
   reloadPort: ->
-    exec 'ls /dev/tty.*', (err, stdout, stderr) ->
-      ttyArray = stdout.split('\n').filter((e)-> e isnt "")
-      _Port = ''
-      for i in [0..ttyArray.length - 1]
-        if ttyArray[i].indexOf('/dev/tty.usbserial') != -1
-          _Port = ttyArray[i]
-          break
-      
-      if _Port is ''
-        _Port = ttyArray[0]
-      atom.config.set('arduino-toolbelt.devicePort', _Port)
+    @command.reloadPort()
 
-  # listPort: ->
-  #   ArduinoPortListView = require('./arduino-port-list-view');
-  #   portListView = new ArduinoPortListView();
-
-    # ttyArray = execSync('ls /dev/tty.*').split('\n').filter((e)-> e isnt "")
-    
-    # portListView.setItems(ttyArray)
-    # portListView.show();
+  setPort: ->
+    ArduinoPortListView = require('./arduino-port-list-view');
+    portListView = new ArduinoPortListView();
+    ttyArray = @command.getPortList()
+    portListView.setItems(ttyArray)
+    portListView.show();
