@@ -1,8 +1,8 @@
 {
   "name": "arduino-toolbelt",
   "main": "./lib/arduino-toolbelt",
-  "version": "0.1.1",
-  "description": "Arduino toolbelt on Atom",
+  "version": "0.1.1.1",
+  "description": "Arduino toolbelt on Atom for Windows users",
   "keywords": [],
   "activationCommands": {
     "atom-workspace": [
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/umeruma/atom-arduino-toolbelt.git"
+    "url": "https://github.com/ohnoezlennydied/atom-arduino-toolbelt.git"
   },
   "license": "MIT",
   "engines": {
