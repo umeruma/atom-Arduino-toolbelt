@@ -7,26 +7,26 @@ module.exports =
     _cb = if cb then cb else ()->{}
 
     arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
-    verifyCommand = arduinoPath + ' ' + filePath + ' ' + '--verify'
+    verifyCommand = arduinoPath + ' ' + '--verify'+ ' ' + '"' + filePath + '"'
     console.log verifyCommand
     exec verifyCommand, (err, stdout, stderr) ->
-      if err is null
+      if stderr is ''
         atom.notifications.addSuccess('Done compiling.')
       else
-        atom.notifications.addError('Compiling error', {detail: err + '\n' + stderr, dismissable: true})
+        atom.notifications.addError('Compiling error', {detail: stderr, dismissable: true})
       _cb()
-        
+
   upload: (filePath) ->
 
     arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
     port = atom.config.get('arduino-toolbelt.devicePort')
-    uploadCommand = arduinoPath + ' ' + filePath + ' ' + '--upload --port ' + port
+    uploadCommand = arduinoPath + ' ' + '--upload --port ' + port + ' ' + '"' + filePath + '"'
     exec uploadCommand, (err, stdout, stderr) ->
-      if err is null
+      if stderr is ''
         atom.notifications.addSuccess('Done uploading.')
       else
-        atom.notifications.addError('Uploading error', {detail: err + '\n' + stderr, dismissable: true})
-        
+        atom.notifications.addError('Uploading error', {detail: stderr, dismissable: true})
+
   reloadPort: ->
     exec 'ls /dev/tty.*', (err, stdout, stderr) ->
       ttyArray = stdout.split('\n').filter((e)-> e isnt "")
@@ -35,11 +35,11 @@ module.exports =
         if ttyArray[i].indexOf('/dev/tty.usbserial') != -1
           _Port = ttyArray[i]
           break
-      
+
       if _Port is ''
         _Port = ttyArray[0]
       atom.config.set('arduino-toolbelt.devicePort', _Port)
-      
+
   getPortList: ->
     execSync('ls /dev/tty.*', { encoding: 'utf8' })
       .split('\n')
