@@ -78,8 +78,9 @@ module.exports = ArduinoToolbelt =
     @command.reloadPort()
 
   setPort: ->
-    ArduinoPortListView = require('./arduino-port-list-view');
-    portListView = new ArduinoPortListView();
+    if @portListView is null
+      ListView = require('./arduino-port-list-view')
+      @portListView = new ListView();
     ttyArray = @command.getPortList()
-    portListView.setItems(ttyArray)
-    portListView.show();
+    @portListView.setItems(ttyArray)
+    @portListView.show()
