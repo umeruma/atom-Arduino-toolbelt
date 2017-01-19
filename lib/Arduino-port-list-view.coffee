@@ -26,6 +26,7 @@ class ArduinoPortListView extends SelectListView
 
   confirmed: (item) ->
     #console.log "#{item} was selected"
+    atom.config.set 'arduino-toolbelt.devicePort', item
     @panel.hide()
 
   cancelled: ->
