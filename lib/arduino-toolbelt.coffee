@@ -13,10 +13,10 @@ command = null
 #     binaryFilePathValue = '';
 
 module.exports = ArduinoToolbelt = 
-  arduinoToolbeltView: null
   modalPanel: null
   subscriptions: null
   command: null
+  portListView: null
 
   config:
     binaryFilePath:
@@ -43,9 +43,10 @@ module.exports = ArduinoToolbelt =
       'arduino-toolbelt:verify': => @verify()
       'arduino-toolbelt:upload': => @upload()
       'arduino-toolbelt:set-port': => @setPort()
-      'arduino-toolbelt:reload-port': => @reloadPort()
-    @reloadPort()
-
+      'arduino-toolbelt:reload-port': => @reloadPortList()
+    
+    @reloadPortList()
+    
   deactivate: ->
     # @modalPanel.destroy()
     @subscriptions.dispose()
@@ -61,25 +62,24 @@ module.exports = ArduinoToolbelt =
   #     @modalPanel.hide()
   #   else
   #     @modalPanel.show()
-  
-  verify: ->
+  getCurFilePath: ->
     editor = atom.workspace.getActivePaneItem()
     file = editor?.buffer.file
     filePath = file?.path
-    @command.verify(filePath)
+    
+  verify: ->
+    @command.verify(@getCurFilePath())
 
   upload: ->
-    editor = atom.workspace.getActivePaneItem()
-    file = editor?.buffer.file
-    filePath = file?.path
-    @command.upload(filePath)
+    @command.upload(@getCurFilePath())
 
-  reloadPort: ->
-    @command.reloadPort()
+  reloadPortList: ->
+    @command.reloadPortList()
 
   setPort: ->
-    ArduinoPortListView = require('./arduino-port-list-view');
-    portListView = new ArduinoPortListView();
+    if @portListView is null
+      ListView = require('./arduino-port-list-view')
+      @portListView = new ListView();
     ttyArray = @command.getPortList()
-    portListView.setItems(ttyArray)
-    portListView.show();
+    @portListView.setItems(ttyArray)
+    @portListView.show()
