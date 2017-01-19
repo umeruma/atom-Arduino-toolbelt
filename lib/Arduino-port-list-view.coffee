@@ -2,17 +2,6 @@
 
 module.exports =
 class ArduinoPortListView extends SelectListView
-  # constructor: (serializedState) ->
-  #   # Create root element
-  #   @element = document.createElement('div')
-  #   @element.classList.add('arduino-toolbelt')
-  # 
-  #   # Create message element
-  #   message = document.createElement('div')
-  #   message.textContent = "The ArduinoToolbelt package is Alive! It's ALIVE!"
-  #   message.classList.add('message')
-  #   @element.appendChild(message)
-
   initialize: ->
     super
     @addClass('arduino-port-list overlay from-top')
@@ -28,7 +17,7 @@ class ArduinoPortListView extends SelectListView
     @element
 
   show: ->
-    @panel ?= atom.workspace.addModalPanel(item: this)
+    @panel ?= atom.workspace.addModalPanel item: this
     @panel.show()
     @focusFilterEditor()
   
@@ -36,9 +25,9 @@ class ArduinoPortListView extends SelectListView
     "<li>#{item}</li>"
 
   confirmed: (item) ->
-    console.log("#{item} was selected")
+    #console.log "#{item} was selected"
     @panel.hide()
 
   cancelled: ->
-    console.log("This view was cancelled")
+    #console.log "Port selecting view was cancelled"
     @panel.hide()

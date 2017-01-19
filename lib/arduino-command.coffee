@@ -27,7 +27,7 @@ module.exports =
       else
         atom.notifications.addError('Uploading error', {detail: err + '\n' + stderr, dismissable: true})
         
-  reloadPort: ->
+  reloadPortList: ->
     exec 'ls /dev/tty.*', (err, stdout, stderr) ->
       ttyArray = stdout.split('\n').filter((e)-> e isnt "")
       _Port = ''
@@ -38,7 +38,9 @@ module.exports =
       
       if _Port is ''
         _Port = ttyArray[0]
-      atom.config.set('arduino-toolbelt.devicePort', _Port)
+      
+      if atom.config.get('arduino-toolbelt.devicePort') is ''
+        atom.config.set('arduino-toolbelt.devicePort', _Port)
       
   getPortList: ->
     execSync('ls /dev/tty.*', { encoding: 'utf8' })
