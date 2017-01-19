@@ -1,6 +1,6 @@
 {
   "name": "arduino-toolbelt",
-  "main": "./lib/arduino-toolbelt",
+  "main": "./lib/arduino-toolbelt.coffee",
   "version": "0.1.1",
   "description": "Arduino toolbelt on Atom",
   "keywords": [],
