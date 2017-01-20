@@ -9,7 +9,7 @@
       "arduino-toolbelt:verify",
       "arduino-toolbelt:upload",
       "arduino-toolbelt:reload-port",
-      "arduino-toolbelt:set-port"
+      "arduino-toolbelt:select-port"
     ]
   },
   "repository": {

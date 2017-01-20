@@ -1,10 +1,10 @@
 {SelectListView} = require 'atom-space-pen-views'
 
 module.exports =
-class ArduinoPortListView extends SelectListView
+class ArduinoPortSelectView extends SelectListView
   initialize: ->
     super
-    @addClass('arduino-port-list overlay from-top')
+    @addClass('arduino-port-select')
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->

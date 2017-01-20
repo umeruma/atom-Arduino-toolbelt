@@ -2,14 +2,13 @@ child = require 'child_process'
 exec = child.exec
 execSync = child.execSync
 
-module.exports =
+module.exports = ArduinoCommand =
   verify: (filePath, cb)->
     _cb = if cb then cb else ()->{}
 
     arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
-    verifyCommand = arduinoPath + ' ' + filePath + ' ' + '--verify'
-    console.log verifyCommand
-    exec verifyCommand, (err, stdout, stderr) ->
+    
+    exec "#{arduinoPath} #{filePath} --verify", (err, stdout, stderr) ->
       if err is null
         atom.notifications.addSuccess('Done compiling.')
       else
@@ -20,8 +19,8 @@ module.exports =
 
     arduinoPath = atom.config.get('arduino-toolbelt.binaryFilePath')
     port = atom.config.get('arduino-toolbelt.devicePort')
-    uploadCommand = arduinoPath + ' ' + filePath + ' ' + '--upload --port ' + port
-    exec uploadCommand, (err, stdout, stderr) ->
+    
+    exec "#{arduinoPath} #{filePath} --upload --port #{port}", (err, stdout, stderr) ->
       if err is null
         atom.notifications.addSuccess('Done uploading.')
       else

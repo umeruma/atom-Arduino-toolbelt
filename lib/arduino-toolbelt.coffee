@@ -1,6 +1,4 @@
-# ArduinoToolbeltView = require './arduino-toolbelt-view'
 {CompositeDisposable} = require 'atom'
-command = null
 
 # switch process.platform
 #   when 'darwin'
@@ -12,11 +10,10 @@ command = null
 #   else
 #     binaryFilePathValue = '';
 
-module.exports = ArduinoToolbelt = 
-  modalPanel: null
+module.exports = ArduinoToolbelt =
   subscriptions: null
   command: null
-  portListView: null
+  portSelectView: null
 
   config:
     binaryFilePath:
@@ -31,37 +28,23 @@ module.exports = ArduinoToolbelt =
 
   activate: (state) ->
     @command ?= require './arduino-command'
-    # @arduinoToolbeltView = new ArduinoToolbeltView(state.arduinoToolbeltViewState)
-    # @modalPanel = atom.workspace.addModalPanel(item: @arduinoToolbeltView.getElement(), visible: false)
-
-    # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
-    # Register command that toggles this view
+    # Register command
     @subscriptions.add atom.commands.add 'atom-workspace',
-      # 'arduino-toolbelt:toggle': => @toggle()
       'arduino-toolbelt:verify': => @verify()
       'arduino-toolbelt:upload': => @upload()
-      'arduino-toolbelt:set-port': => @setPort()
+      'arduino-toolbelt:select-port': => @selectPort()
       'arduino-toolbelt:reload-port': => @reloadPortList()
     
     @reloadPortList()
     
   deactivate: ->
-    # @modalPanel.destroy()
     @subscriptions.dispose()
-    # @arduinoToolbeltView.destroy()
 
   # serialize: ->
   #   arduinoToolbeltViewState: @arduinoToolbeltView.serialize()
 
-  # toggle: ->
-  #   console.log 'ArduinoToolbelt was toggled!'
-  # 
-  #   if @modalPanel.isVisible()
-  #     @modalPanel.hide()
-  #   else
-  #     @modalPanel.show()
   getCurFilePath: ->
     editor = atom.workspace.getActivePaneItem()
     file = editor?.buffer.file
@@ -76,10 +59,10 @@ module.exports = ArduinoToolbelt =
   reloadPortList: ->
     @command.reloadPortList()
 
-  setPort: ->
-    if @portListView is null
-      ListView = require('./arduino-port-list-view')
-      @portListView = new ListView();
+  selectPort: ->
+    if @portSelectView is null
+      ListView = require('./arduino-port-select-view')
+      @portSelectView = new ListView();
     ttyArray = @command.getPortList()
-    @portListView.setItems(ttyArray)
-    @portListView.show()
+    @portSelectView.setItems(ttyArray)
+    @portSelectView.show()
