@@ -25,19 +25,17 @@ module.exports = ArduinoToolbelt =
       description: 'Arduino port for uploading'
       default: ''
     
-
   activate: (state) ->
     @command ?= require './arduino-command'
     @subscriptions = new CompositeDisposable
+    
+    @setInitialPort()
 
     # Register command
     @subscriptions.add atom.commands.add 'atom-workspace',
       'arduino-toolbelt:verify': => @verify()
       'arduino-toolbelt:upload': => @upload()
       'arduino-toolbelt:select-port': => @selectPort()
-      'arduino-toolbelt:reload-port': => @reloadPortList()
-    
-    @reloadPortList()
     
   deactivate: ->
     @subscriptions.dispose()
@@ -45,6 +43,23 @@ module.exports = ArduinoToolbelt =
   # serialize: ->
   #   arduinoToolbeltViewState: @arduinoToolbeltView.serialize()
 
+  setInitialPort: ->
+    portArray = @command.getPortList()
+    
+    _Port = ''
+    
+    # search port looks like arduino's one
+    for i in [0..portArray.length - 1]
+      if portArray[i].indexOf('/dev/tty.usbserial') != -1
+        _Port = portArray[i]
+        break
+    
+    if _Port is ''
+      _Port = portArray[0]
+    
+    if atom.config.get('arduino-toolbelt.devicePort') is ''
+      atom.config.set('arduino-toolbelt.devicePort', _Port)
+    
   getCurFilePath: ->
     editor = atom.workspace.getActivePaneItem()
     file = editor?.buffer.file
@@ -55,9 +70,6 @@ module.exports = ArduinoToolbelt =
 
   upload: ->
     @command.upload(@getCurFilePath())
-
-  reloadPortList: ->
-    @command.reloadPortList()
 
   selectPort: ->
     if @portSelectView is null

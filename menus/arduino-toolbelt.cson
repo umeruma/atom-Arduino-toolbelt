@@ -25,8 +25,8 @@
           'command': 'arduino-toolbelt:upload'
         }
         {
-          'label': 'Reload Port'
-          'command': 'arduino-toolbelt:reload-port'
+          'label': 'Select Port'
+          'command': 'arduino-toolbelt:select-port'
         }
       ]
     ]

@@ -25,21 +25,6 @@ module.exports = ArduinoCommand =
         atom.notifications.addSuccess('Done uploading.')
       else
         atom.notifications.addError('Uploading error', {detail: err + '\n' + stderr, dismissable: true})
-        
-  reloadPortList: ->
-    exec 'ls /dev/tty.*', (err, stdout, stderr) ->
-      ttyArray = stdout.split('\n').filter((e)-> e isnt "")
-      _Port = ''
-      for i in [0..ttyArray.length - 1]
-        if ttyArray[i].indexOf('/dev/tty.usbserial') != -1
-          _Port = ttyArray[i]
-          break
-      
-      if _Port is ''
-        _Port = ttyArray[0]
-      
-      if atom.config.get('arduino-toolbelt.devicePort') is ''
-        atom.config.set('arduino-toolbelt.devicePort', _Port)
       
   getPortList: ->
     execSync('ls /dev/tty.*', { encoding: 'utf8' })
