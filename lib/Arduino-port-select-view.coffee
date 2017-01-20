@@ -22,7 +22,10 @@ class ArduinoPortSelectView extends SelectListView
     @focusFilterEditor()
   
   viewForItem: (item) ->
-    "<li>#{item}</li>"
+    if item is atom.config.get('arduino-toolbelt.devicePort')
+      "<li><b>-> #{item}</b></li>"
+    else
+      "<li>#{item}</li>"
 
   confirmed: (item) ->
     #console.log "#{item} was selected"

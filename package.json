@@ -8,7 +8,6 @@
     "atom-workspace": [
       "arduino-toolbelt:verify",
       "arduino-toolbelt:upload",
-      "arduino-toolbelt:reload-port",
       "arduino-toolbelt:select-port"
     ]
   },
